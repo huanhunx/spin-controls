@@ -5,8 +5,9 @@
  * @author Luca Antiga 	/ http://lantiga.github.io
  * @author Paul Elliott / http://vizworkshop.com
  */
+ import * as THREE from 'three'
 
-var SpinControls = function ( object, trackBallRadius, camera, domElement ) {
+export var SpinControls = function ( object, trackBallRadius, camera, domElement ) {
 
 	var _this = this;
 
