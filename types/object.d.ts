@@ -1,48 +1,85 @@
-export class ObjectControls {
-    constructor(object: any, trackBallRadius: any, camera: any, domElement: any);
-    object: any;
-    trackballRadius: any;
-    camera: any;
-    domElement: any;
-    enabled: boolean;
-    rotateSensitivity: number;
-    relativelySpinOffTrackball: boolean;
-    enableDamping: boolean;
-    dampingFactor: number;
-    POINTER_SPHERE_MAPPING: {
-        SHOEMAKE: string;
-        HOLROYD: string;
-        AZIMUTHAL: string;
-        RAYCAST: string;
-    };
-    offTrackBallVelocityGainMap: {
-        shoemake: number;
-        holroyd: number;
-        azimuthal: number;
-        raycast: number;
-    };
-    _pointerMapping: string;
-    _offTrackBallVelocityGain: number | undefined;
-    _pointerUpVelDamping: number;
-    screen: {
-        left: number;
-        top: number;
-        width: number;
-        height: number;
-    };
-    update: () => void;
-    updateAngularVelocity: (p1: any, p0: any, timeDelta: any) => void;
-    applyVelocity: () => void;
-    onWindowResize: () => void;
-    resetInputAfterCameraMovement: () => void;
-    getPointerInNdc: (pageX: any, pageY: any) => THREE.Vector2;
-    onPointerDown: (pointerScreenX: any, pointerScreenY: any, time: any) => void;
-    onPointerMove: (pointerScreenX: any, pointerScreenY: any, time: any) => void;
-    setPointerToSphereMapping: (mappingTechnique: any) => void;
-    handlePointerDown: (event: any) => void;
-    handlePointerUp: (event: any) => void;
-    cancelSpin: () => void;
-    handleTouchStart: (event: any) => void;
-    dispose: () => void;
+import {
+  EventDispatcher,
+  Object3D,
+  PerspectiveCamera,
+  Vector2,
+  Vector3,
+} from "three";
+
+export class ObjectControls extends EventDispatcher {
+  object: Object3D;
+  trackballRadius: number;
+  camera: PerspectiveCamera;
+  domElement: Document;
+
+  enabled: boolean;
+  rotateSensitivity: number;
+  relativelySpinOffTrackball: boolean;
+  enableDamping: boolean;
+  dampingFactor: boolean;
+  spinAxisConstraint?: Vector3;
+
+  POINTER_SPHERE_MAPPING: {
+    SHOEMAKE: "shoemake";
+    HOLROYD: "holroyd";
+    AZIMUTHAL: "azimuthal";
+    RAYCAST: "raycast";
+  };
+
+  offTrackBallVelocityGainMap: {
+    shoemake: 20;
+    holroyd: 8;
+    azimuthal: 8;
+    raycast: 20;
+  };
+
+  screen: {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+  };
+
+  constructor(
+    object: Object3D,
+    trackBallRadius: number,
+    camera: PerspectiveCamera,
+    domElement?: Document | HTMLElement
+  );
+
+  update(): void;
+
+  updateAngularVelocity(p1: Vector3, p0: Vector3, timeDelta: number): void;
+
+  applyVelocity(): void;
+
+  onWindowResize(): void;
+
+  resetInputAfterCameraMovement(): void;
+
+  getPointerInNdc(pageX: number, pageY: number): Vector2;
+
+  //   onPointerDown(
+  //     pointerScreenX: number,
+  //     pointerScreenY: number,
+  //     time: number
+  //   ): void;
+
+  //   onPointerMove(
+  //     pointerScreenX: number,
+  //     pointerScreenY: number,
+  //     time: number
+  //   ): void;
+
+  setPointerToSphereMapping(mappingTechnique: string): void;
+
+  cancelSpin(): void;
+
+  dispose(): void;
+
+  //   handlePointerDown(event: MouseEvent | TouchEvent): void;
+  //   handlePointerUp(event: MouseEvent | TouchEvent): void;
+  //   onMouseDown(event: MouseEvent | TouchEvent): void;
+  //   onMouseMove(event: MouseEvent | TouchEvent): void;
+  //   onMouseUp(event: MouseEvent | TouchEvent): void;
 }
-import * as THREE from "three";

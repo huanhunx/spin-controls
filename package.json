@@ -1,5 +1,5 @@
 {
-  "name": "threejs-object-controls",
+  "name": "threejs-object-controller",
   "version": "1.0.0",
   "description": "Trackball style control for three.js Object3Ds and Cameras. Featuring pointer to trackball accuracy and unlimited rotation.",
   "main": "index.js",
@@ -23,5 +23,11 @@
   "bugs": {
     "url": "https://github.com/huanhunx/spin-controls/issues"
   },
-  "homepage": "https://github.com/huanhunx/spin-controls#readme"
+  "homepage": "https://github.com/huanhunx/spin-controls#readme",
+  "keywords": [
+    "three",
+    "threejs",
+    "controls",
+    "object-controls"
+  ]
 }

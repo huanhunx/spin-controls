@@ -1,57 +1,80 @@
-export class CameraControls {
-    constructor(camera: any, domElement: any, isAutoMoveToFingersCenter?: boolean);
-    domElement: any;
-    enabled: boolean;
-    object: any;
-    targetObj: THREE.Object3D<THREE.Event>;
-    target: THREE.Vector3;
-    startTrackballScreenCenter: boolean;
-    trackballToObject: THREE.Matrix4;
-    minDistance: number;
-    maxDistance: number;
-    minZoom: number;
-    maxZoom: number;
-    enableDamping: boolean;
-    dampingFactor: number;
-    enableZoom: boolean;
-    zoomSpeed: number;
-    enableRotate: boolean;
-    enablePan: boolean;
-    panSpeed: number;
-    screenSpacePanning: boolean;
-    keyPanSpeed: number;
-    enableKeys: boolean;
-    keys: {
-        LEFT: number;
-        UP: number;
-        RIGHT: number;
-        BOTTOM: number;
-    };
-    mouseButtons: {
-        LEFT: THREE.MOUSE;
-        MIDDLE: THREE.MOUSE;
-        RIGHT: THREE.MOUSE;
-    };
-    target0: THREE.Vector3;
-    position0: any;
-    zoom0: any;
-    setEnableRotate: (isEnabled: any) => void;
-    saveState: () => void;
-    reset: () => void;
-    movedTarget: () => void;
-    setTargetPosition: (positionVector: any) => void;
-    update: () => boolean;
-    onWindowResize: () => void;
-    adjustTrackballRadius: () => void;
-    dispose: () => void;
-    STATE: {
-        NONE: number;
-        ROTATE: number;
-        DOLLY: number;
-        PAN: number;
-        TOUCH_DOLLY_PAN: number;
-    };
-    spinControl: SpinControls;
+import {
+  Matrix4,
+  Object3D,
+  PerspectiveCamera,
+  Vector3,
+  MOUSE,
+  EventDispatcher,
+} from "three";
+
+export class CameraControls extends EventDispatcher {
+  domElement: Document | HTMLElement;
+  enabled: boolean;
+  object: PerspectiveCamera;
+  targetObj: Object3D;
+  target: Vector3;
+
+  startTrackballScreenCenter: boolean;
+  trackballToObject: Matrix4;
+
+  // How far you can dolly in and out ( PerspectiveCamera only )
+  // Will cause jumps if target is moved closer or further than limits
+  minDistance: number;
+  maxDistance: number;
+
+  // How far you can zoom in and out ( OrthographicCamera only )
+  minZoom: number;
+  maxZoom: number;
+
+  // Set to true to enable damping (inertia)
+  // If damping is enabled, you must call controls.update() in your animation loop
+  enableDamping: boolean;
+  dampingFactor: number;
+
+  // This option actually enables dollying in and out; left as "zoom" for backwards compatibility.
+  // Set to false to disable zooming
+  enableZoom: boolean;
+  zoomSpeed: number;
+
+  // Use setEnableRotate(isEnabled) function
+  enableRotate: boolean;
+
+  // Set to false to disable panning
+  enablePan: boolean;
+  panSpeed: number;
+  screenSpacePanning: boolean; // if true, pan in screen-space
+  keyPanSpeed: number; // pixels moved per arrow key push
+
+  // Set to false to disable use of the keys
+  enableKeys: boolean;
+
+  // The four arrow keys
+  keys: { LEFT: 37; UP: 38; RIGHT: 39; BOTTOM: 40 };
+
+  // Mouse buttons
+  mouseButtons: {
+    LEFT: MOUSE.LEFT;
+    MIDDLE: MOUSE.MIDDLE;
+    RIGHT: MOUSE.RIGHT;
+  };
+
+  target0: Vector3;
+  position0: Vector3;
+  zoom0: number;
+
+  constructor(
+    camera: PerspectiveCamera,
+    domElement?: Document | HTMLElement,
+    isAutoMoveToFingersCenter?: boolean
+  );
+
+  setEnableRotate(isEnabled: boolean): void;
+  saveState(): void;
+  reset(): void;
+  movedTarget(): void;
+  setTargetPosition(positionVector: Vector3): void;
+  update(): void;
+  onWindowResize(): void;
+  adjustTrackballRadius(): void;
+  dispose(): void;
 }
-import * as THREE from "three";
-import { ObjectControls as SpinControls } from "./object";
